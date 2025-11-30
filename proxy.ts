@@ -3,7 +3,7 @@ import type { NextRequest } from 'next/server'
  
 export function proxy(request: NextRequest) {
   const path = request.nextUrl.pathname;
-  const ispublicPath = ['/login', '/signup'].includes(path);
+  const ispublicPath = ['/login', '/signup','/verifymail'].includes(path);
 
   const token = request.cookies.get('token')?.value;
   
@@ -25,5 +25,6 @@ export const config = {
     '/profile/:path*',
     '/login',
     '/signup',
+    '/verifymail',
   ],
 }

@@ -21,6 +21,6 @@ export async function GET() {
     } catch (error: unknown) {
         console.error("Error fetching users:", error);
         const errorMessage = error instanceof Error ? error.message : 'An error occurred';
-        return NextResponse.json({ error: errorMessage }, { status: 500 });
+        return NextResponse.json({ error: errorMessage }, { status: 400 });
     }
 }

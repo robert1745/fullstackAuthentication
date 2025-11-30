@@ -8,10 +8,14 @@ const userSchema = new mongoose.Schema({
     isAdmin: { type: Boolean, default: false },
     forgotPasswordToken: { type: String },
     forgotPasswordTokenExpiry: { type: Date },
-    verifiyToken: { type: String },
+    verifyToken: { type: String },
     verifyTokenExpiry: { type: Date },
-})
+}, { strict: true })
 
+// Clear the cached model to ensure schema changes take effect
+if (mongoose.models.users) {
+    delete mongoose.models.users;
+}
 
-const User = mongoose.models.users || mongoose.model('users', userSchema);
+const User = mongoose.model('users', userSchema);
 export default User;

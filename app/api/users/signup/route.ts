@@ -2,6 +2,7 @@ import connectDb from "@/dbconfig/dbconfig";
 import User from '@/models/userModel';
 import {NextRequest, NextResponse} from 'next/server';
 import bcrypt from 'bcryptjs';
+import { sendEmail } from "@/helpers/mailer";
 
 export async function POST(request: NextRequest) {
     try{
@@ -29,6 +30,7 @@ export async function POST(request: NextRequest) {
 
         const savedUser = await newUser.save();
 
+        await sendEmail({ email, emailType: "VERIFY", userId: savedUser._id });
         return NextResponse.json(
             { message: "User registered successfully", success:true, savedUser });
 
@@ -36,6 +38,6 @@ export async function POST(request: NextRequest) {
     catch(error: unknown){
         console.error("Signup error:", error);
         const errorMessage = error instanceof Error ? error.message : 'An error occurred during signup';
-        return NextResponse.json({ error: errorMessage}, { status: 500 });
+        return NextResponse.json({ error: errorMessage}, { status: 400 });
     }
 }
